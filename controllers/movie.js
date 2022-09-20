@@ -21,7 +21,8 @@ module.exports.addMovie = (req, res, next) => {
     thumbnail,
     movieId,
     nameRU,
-    nameEN } = req.body;
+    nameEN,
+  } = req.body;
   const owner = req.user._id;
   Movie.create({
     country,
@@ -35,12 +36,12 @@ module.exports.addMovie = (req, res, next) => {
     movieId,
     nameRU,
     nameEN,
-    owner
+    owner,
   })
     .then((movie) => res.status(201).send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ValidationError('Некорректные данные'));
+        throw new ValidationError('Некорректные данные');
       } else {
         next(err);
       }
