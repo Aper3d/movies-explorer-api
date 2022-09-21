@@ -4,7 +4,7 @@ const isURL = require('validator/lib/isURL');
 module.exports.validateMovieId = celebrate({
   body: Joi.object().keys({
     mivieId: Joi.string().length(24).hex().required(),
-  })
+  }),
 });
 
 module.exports.validateAddMovie = celebrate({
@@ -15,19 +15,19 @@ module.exports.validateAddMovie = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom((value, helpers) => {
-      if(isURL(value)) {
+      if (isURL(value)) {
         return value;
       }
       return helpers.message('Некорректный формат ссылки');
     }),
     trailerLink: Joi.string().required().custom((value, helpers) => {
-      if(isURL(value)) {
+      if (isURL(value)) {
         return value;
       }
       return helpers.message('Некорректный формат ссылки');
     }),
     thumbnail: Joi.string().required().custom((value, helpers) => {
-      if(isURL(value)) {
+      if (isURL(value)) {
         return value;
       }
       return helpers.message('Некорректный формат ссылки');
