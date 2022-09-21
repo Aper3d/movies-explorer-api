@@ -41,7 +41,7 @@ module.exports.addMovie = (req, res, next) => {
     .then((movie) => res.status(201).send({ data: movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError('Некорректные данные');
+        next(new ValidationError('Некорректные данные'));
       } else {
         next(err);
       }
@@ -49,7 +49,7 @@ module.exports.addMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.cardId)
+  Movie.findById(req.params.movieId)
     .orFail(() => { throw new NotFoundError('Фильм не найден'); })
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id) {

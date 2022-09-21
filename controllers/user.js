@@ -13,7 +13,7 @@ module.exports.getMe = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден');
+        next(new NotFoundError('Пользователь не найден'));
       }
       res.send({ data: user });
     })
@@ -41,9 +41,10 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        throw new ConflictError('Пользователь уже существует');
-      } else if (err.name === 'ValidationError') {
-        throw new ValidationError('Переданны некорректные данные');
+        next(new ConflictError('Пользователь уже существует'));
+        return;
+      } if (err.name === 'ValidationError') {
+        next(new ValidationError('Переданны некорректные данные'));
       } else {
         next(err);
       }
@@ -60,9 +61,10 @@ module.exports.updateUser = (req, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.code === 11000) {
-        throw new ConflictError('Email уже используется');
-      } else if (err.name === 'ValidationError') {
-        throw new ValidationError('Переданны некорректные данные');
+        next(new ConflictError('Email уже используется'));
+        return;
+      } if (err.name === 'ValidationError') {
+        next(new ValidationError('Переданны некорректные данные'));
       } else {
         next(err);
       }
