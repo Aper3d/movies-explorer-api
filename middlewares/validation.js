@@ -3,7 +3,7 @@ const isURL = require('validator/lib/isURL');
 
 module.exports.validateMovieId = celebrate({
   body: Joi.object().keys({
-    mivieId: Joi.string().length(24).hex().required(),
+    movieId: Joi.string().length(24).hex().required(),
   }),
 });
 
