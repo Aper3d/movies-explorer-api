@@ -2,7 +2,7 @@ const { celebrate, Joi } = require('celebrate');
 const isURL = require('validator/lib/isURL');
 
 module.exports.validateMovieId = celebrate({
-  body: Joi.object().keys({
+  params: Joi.object().keys({
     movieId: Joi.string().length(24).hex().required(),
   }),
 });
